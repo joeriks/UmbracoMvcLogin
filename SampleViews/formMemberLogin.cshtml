@@ -1,0 +1,46 @@
+﻿@model MvcLogin.MemberLoginModel	
+	
+@if (User.Identity.IsAuthenticated)
+{
+    <p>Inloggad: @User.Identity.Name</p>
+
+    using (Html.BeginUmbracoForm<MemberLoginController>("MemberLogout", "MemberLoginSurface", new {}))
+    {
+        @Html.AntiForgeryToken()
+
+        <input type="submit" value="Logga ut" />
+    }
+
+
+}
+else
+{
+	using (Html.BeginUmbracoForm<MemberLoginController>("MemberLogin", "MemberLoginController")) { 
+		
+        @Html.AntiForgeryToken()
+
+        @* Custom HTML *@
+
+        <label>Username</label>
+        <input type="text" name="Username"/> 
+
+        <label>Password</label>
+        <input type="password" name="Password"/>
+
+
+        @* MVC Style also works *@
+
+ 		@*@Html.LabelFor(model => model.Username, umbraco.library.GetDictionaryItem("Username"))
+        @Html.EditorFor(model => model.Username)
+
+        @Html.LabelFor(model => model.Password, umbraco.library.GetDictionaryItem("Password"))
+        @Html.EditorFor(model => model.Password)*@
+			
+		@Html.HiddenFor(model => model.ReturnUrl)
+				
+	<input type="submit" value="Logga in"/>
+}    
+    
+}
+
+@TempData["MemberLoginMessage"]
